@@ -51,35 +51,33 @@ pub fn part1(input: &[String]) -> i32 {
     has_two_count * has_three_count
 }
 
-fn get_id_value(id: &String) -> u32 {
-    let mut value: u32 = 0;
-    for c in id.chars() {
-        value += c as u32
+fn get_id_diff(id_1: &String, id_2: &String) -> Option<String> {
+    let mut id_diff = String::new();
+    let mut diff_count = 0;
+    let mut iter = id_1.chars().zip(id_2.chars());
+    for (c0, c1) in iter {
+        match c0 == c1 {
+            true => id_diff.push_str(&c0.to_string()),
+            false => diff_count += 1,
+        }
     }
-    value
-}
-
-fn find_id_diff(
-    id_values: &HashMap<u32, Vec<String>>,
-    id: &String,
-    id_value: u32,
-) -> Option<String> {
-    for other_id_value in (id_value - 128)..(id_value + 128):
-    Some("foo".to_string())
+    match diff_count {
+        1 => Some(id_diff),
+        _ => None,
+    }
 }
 
 #[aoc(day2, part2)]
 pub fn part2(input: &[String]) -> String {
-    let mut id_values: HashMap<u32, Vec<String>> = HashMap::new();
+    let mut other_ids: Vec<String> = Vec::new();
     for id in input {
-        let id_value = get_id_value(id);
-        match find_id_diff(&id_values, &id, id_value) {
-            Some(id_diff) => return id_diff,
-            _ => {
-                let mut values_vec = id_values.entry(id_value).or_insert(Vec::new());
-                values_vec.push(id.to_string())
+        for other_id in &other_ids {
+            match get_id_diff(&id, &other_id) {
+                Some(id_diff) => return id_diff,
+                None => {}
             }
-        };
+        }
+        other_ids.push(id.to_string())
     }
     unreachable!()
 }
