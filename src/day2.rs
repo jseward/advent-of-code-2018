@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 #[aoc_generator(day2)]
 pub fn input_generator(input: &str) -> Vec<String> {
     input.lines().map(|line| line.to_string()).collect()
