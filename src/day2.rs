@@ -52,7 +52,7 @@ pub fn part1(input: &[String]) -> i32 {
 fn get_id_diff(id_1: &String, id_2: &String) -> Option<String> {
     let mut id_diff = String::new();
     let mut diff_count = 0;
-    let mut iter = id_1.chars().zip(id_2.chars());
+    let iter = id_1.chars().zip(id_2.chars());
     for (c0, c1) in iter {
         match c0 == c1 {
             true => id_diff.push_str(&c0.to_string()),
